@@ -10,6 +10,7 @@ import NoResult from "@/components/shared/NoResult";
 const Page = async () => {
     const result = await getAllTags({});
 
+    console.log(result);
     return (
         <>
             <div>
@@ -44,7 +45,7 @@ const Page = async () => {
                                 </div>
                                 <p className="small-medium text-dark400_light500 mt-3.5">
                                     <span className="body-semibold primary-text-gradient mr-2.5">
-                                        {tag.questions.lenght}+
+                                        {tag.questions.length}+
                                     </span>
                                 </p>
                             </article>
