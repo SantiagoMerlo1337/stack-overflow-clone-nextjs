@@ -4,7 +4,6 @@ import { TagFilters } from "@/components/constants/filters";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import Filter from "@/components/shared/Filter";
 import { getAllTags } from "@/lib/actions/tag.actions";
-import TagCard from "@/components/cards/TagCard";
 import NoResult from "@/components/shared/NoResult";
 
 const Page = async () => {
@@ -49,8 +48,6 @@ const Page = async () => {
                                     </span>
                                 </p>
                             </article>
-
-                            <TagCard key={tag._id} tag={tag} />
                         </Link>
                     ))
                 ) : (
