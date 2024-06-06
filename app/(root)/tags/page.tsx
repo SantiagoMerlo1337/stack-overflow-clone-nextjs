@@ -9,7 +9,6 @@ import NoResult from "@/components/shared/NoResult";
 const Page = async () => {
     const result = await getAllTags({});
 
-    console.log(result);
     return (
         <>
             <div>
