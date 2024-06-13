@@ -5,6 +5,7 @@ import Metric from "../shared/Metric";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 
 interface Props {
+    clerkId?: string | null;
     _id: string;
     title: string;
     tags: { _id: string; name: string }[];
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const QuestionCard = ({
+    clerkId,
     _id,
     title,
     tags,
@@ -40,6 +42,7 @@ const QuestionCard = ({
                 </div>
                 {/* If signed in add edit delete actions */}
             </div>
+
             <div className="mt-3.5 flex flex-wrap gap-2">
                 {tags.map((tag) => (
                     <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
