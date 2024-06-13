@@ -2,10 +2,10 @@ import React from "react";
 import Filter from "./Filter";
 import { AnswerFilters } from "../constants/filters";
 import { getAnswers } from "@/lib/actions/answer.action";
-import { Link } from "lucide-react";
 import Image from "next/image";
 import { getTimestamp } from "@/lib/utils";
 import ParseHTML from "./ParseHTML";
+import Link from "next/link";
 import Votes from "./Votes";
 
 interface Props {
@@ -24,6 +24,7 @@ const AllAnswers = async ({
     filter,
 }: Props) => {
     const result = await getAnswers({ questionId });
+
     return (
         <div className="mt-11">
             <div className="flex items-center justify-between">
@@ -51,7 +52,7 @@ const AllAnswers = async ({
                                         alt="profile"
                                         className="rounded-full object-cover max-sm:mt-0.5"
                                     />
-                                    <div className="flex flex-col sm:flex-row sm:items-center">
+                                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                                         <p className="body-semibold text-dark300_light700">
                                             {answer.author.name}
                                         </p>
@@ -63,11 +64,23 @@ const AllAnswers = async ({
                                     </div>
                                 </Link>
                                 <div className="flex justify-end">
-                                    <Votes />
+                                    <Votes
+                                        type="Answer"
+                                        itemId={JSON.stringify(answer._id)}
+                                        userId={JSON.stringify(userId)}
+                                        upvotes={answer.upvotes.length}
+                                        hasupVoted={answer.upvotes.includes(
+                                            userId
+                                        )}
+                                        downvotes={answer.downvotes.length}
+                                        hasdownVoted={answer.downvotes.includes(
+                                            userId
+                                        )}
+                                    />
                                 </div>
                             </div>
-                            <ParseHTML data={answer.content} />
                         </div>
+                        <ParseHTML data={answer.content} />
                     </article>
                 ))}
             </div>
