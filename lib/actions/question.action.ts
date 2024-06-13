@@ -9,8 +9,8 @@ import {
     GetQuestionsParams,
     QuestionVoteParams,
 } from "./shared.types";
-import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
+import User from "@/database/user.model";
 
 export async function getQuestions(params: GetQuestionsParams) {
     try {
@@ -65,7 +65,7 @@ export async function createQuestion(params: CreateQuestionParams) {
                 { name: { $regex: new RegExp(`^${tag}$`, "i") } },
                 {
                     $setOnInsert: { name: tag },
-                    $push: { question: question._id },
+                    $push: { questions: question._id },
                 },
                 { upsert: true, new: true }
             );
