@@ -50,8 +50,8 @@ const AnswerCard = ({
                 <SignedIn>
                     {showActionButtons && (
                         <EditDeleteAction
-                        // type="Answer"
-                        // itemId={JSON.stringify(_id)}
+                            type="Answer"
+                            itemId={JSON.stringify(_id)}
                         />
                     )}
                 </SignedIn>
