@@ -13,17 +13,5 @@ const nextConfig = {
         ],
     },
 };
-// next.config.js
-module.exports = {
-    webpack: (config, { isServer }) => {
-        if (!isServer) {
-            config.resolve.fallback = {
-                ...config.resolve.fallback,
-                async_hooks: false,
-            };
-        }
-        return config;
-    },
-};
 
 export default nextConfig;
