@@ -48,9 +48,10 @@ export const formatAndDivideNumber = (number: number): string => {
 
 export const getJoinedDate = (date: Date): string => {
     const month = date.toLocaleString("default", { month: "long" });
+    const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
     const year = date.getFullYear();
 
-    const joinedDate = `${month} ${year}`;
+    const joinedDate = `${capitalizedMonth} ${year}`;
     return joinedDate;
 };
 

@@ -41,7 +41,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
                             @{result.user.username}
                         </p>
 
-                        <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
+                        <div className="text-dark300_light700 mt-5 flex flex-wrap items-center justify-start gap-5">
                             {result.user.portfolioWebsite && (
                                 <ProfileLink
                                     imgUrl="/assets/icons/link.svg"
@@ -59,10 +59,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
                             <ProfileLink
                                 imgUrl="/assets/icons/calendar.svg"
-                                title={result.user.location}
+                                title={getJoinedDate(result.user.joinedAt)}
                             />
-
-                            {getJoinedDate(result.user.joinedAt)}
                         </div>
 
                         {result.user.bio && (

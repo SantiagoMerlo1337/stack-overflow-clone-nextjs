@@ -7,13 +7,13 @@ export const QuestionsSchema = z.object({
 });
 
 export const AnswerSchema = z.object({
-    answer: z.string().min(100),
+    answer: z.string().min(20),
 });
 
 export const ProfileSchema = z.object({
     name: z.string().min(5).max(50),
     username: z.string().min(5).max(50),
-    bio: z.string().min(5).max(150),
-    portfolioWebsite: z.string().url(),
-    location: z.string().min(5).max(50),
+    bio: z.union([z.string().min(5).max(150), z.literal("")]).optional(),
+    portfolioWebsite: z.union([z.string().url(), z.literal("")]).optional(),
+    location: z.union([z.string().min(5).max(50), z.literal("")]).optional(),
 });
