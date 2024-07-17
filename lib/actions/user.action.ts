@@ -245,10 +245,9 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 }
 
 export async function getUserInfo(params: GetUserByIdParams) {
+    const { userId } = params;
     try {
         connectToDatabase();
-
-        const { userId } = params;
 
         const user = await User.findOne({ clerkId: userId });
 
