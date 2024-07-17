@@ -1,4 +1,4 @@
-import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
+import withTM from "next-transpile-modules";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -16,14 +16,14 @@ const nextConfig = {
     },
     webpack: (config, { isServer }) => {
         if (!isServer) {
-            config.resolve.fallback = {
-                ...config.resolve.fallback,
-                async_hooks: false,
+            config.resolve.alias = {
+                ...config.resolve.alias,
+                "node:async_hooks": false,
             };
         }
-        config.plugins.push(new NodePolyfillPlugin());
         return config;
     },
 };
 
-export default nextConfig;
+// Exporta la configuración utilizando `withTM`
+export default withTM(["@clerk/nextjs"])(nextConfig);
