@@ -1,3 +1,5 @@
+import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
@@ -19,6 +21,7 @@ const nextConfig = {
                 async_hooks: false,
             };
         }
+        config.plugins.push(new NodePolyfillPlugin());
         return config;
     },
 };
