@@ -15,7 +15,7 @@ import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
 
 import type { Metadata } from "next";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
     title: "Home | Dev Overflow",
@@ -105,10 +105,12 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
                 )}
             </div>
             <div className="mt-10">
-                <Pagination
-                    pageNumber={searchParams?.page ? +searchParams.page : 1}
-                    isNext={result.isNext}
-                />
+                {result && (
+                    <Pagination
+                        pageNumber={searchParams?.page ? +searchParams.page : 1}
+                        isNext={result.isNext}
+                    />
+                )}
             </div>
         </>
     );

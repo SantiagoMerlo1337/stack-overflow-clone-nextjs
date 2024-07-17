@@ -5,7 +5,7 @@ import { QuestionFilters } from "@/components/constants/filters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
 import { getSavedQuestions } from "@/lib/actions/user.action";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
 
@@ -46,7 +46,7 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
 
             <div className="mt-10 flex w-full flex-col gap-6">
                 {result && result.questions.length > 0 ? (
-                    result.questions.map((question) => (
+                    result.questions.map((question: any) => (
                         <QuestionCard
                             key={question._id}
                             _id={question._id}
@@ -71,10 +71,12 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
                 )}
             </div>
             <div className="mt-10">
-                <Pagination
-                    pageNumber={searchParams?.page ? +searchParams.page : 1}
-                    isNext={result.isNext}
-                />
+                {result && (
+                    <Pagination
+                        pageNumber={searchParams?.page ? +searchParams.page : 1}
+                        isNext={result.isNext}
+                    />
+                )}
             </div>
         </>
     );

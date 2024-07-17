@@ -27,7 +27,7 @@ interface Props {
 const Answer = ({ question, questionId, authorId }: Props) => {
     const pathname = usePathname();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSubmittingAI, setIsSubmittingAI] = useState(false);
+    // const [isSubmittingAI, setIsSubmittingAI] = useState(false);
     const { mode } = useTheme();
     const editorRef = useRef(null);
     const form = useForm<z.infer<typeof AnswerSchema>>({
@@ -60,28 +60,28 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         }
     };
 
-    const generateAIAnswer = async () => {
-        if (!authorId) return;
+    // const generateAIAnswer = async () => {
+    //     if (!authorId) return;
 
-        setIsSubmittingAI(true);
-        try {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
-                {
-                    method: "POST",
-                    body: JSON.stringify({ question }),
-                }
-            );
+    //     setIsSubmittingAI(true);
+    //     try {
+    //         const response = await fetch(
+    //             `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+    //             {
+    //                 method: "POST",
+    //                 body: JSON.stringify({ question }),
+    //             }
+    //         );
 
-            const aiAnswer = await response.json();
+    //         const aiAnswer = await response.json();
 
-            alert(aiAnswer.reply);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsSubmittingAI(false);
-        }
-    };
+    //         alert(aiAnswer.reply);
+    //     } catch (error) {
+    //         console.log(error);
+    //     } finally {
+    //         setIsSubmittingAI(false);
+    //     }
+    // };
 
     return (
         <div>
@@ -91,7 +91,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                 </h4>
                 <Button
                     className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
-                    onClick={generateAIAnswer}
+                    // onClick={generateAIAnswer}
                 >
                     <Image
                         src="/assets/icons/stars.svg"
