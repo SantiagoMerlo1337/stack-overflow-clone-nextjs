@@ -4,11 +4,14 @@ let isConnected: boolean = false;
 
 export const connectToDatabase = async () => {
     mongoose.set("strictQuery", true);
+
     if (!process.env.MONGODB_URL) {
-        return console.log("MISSING MONGODV_URL");
+        console.error("MISSING MONGODB_URL");
+        throw new Error("MONGODB_URL is not defined in environment variables");
     }
 
     if (isConnected) {
+        console.log("Already connected to MongoDB");
         return;
     }
 
@@ -17,6 +20,7 @@ export const connectToDatabase = async () => {
         isConnected = true;
         console.log("MongoDB is connected");
     } catch (error) {
-        console.log("MongoDB connection failed", error);
+        console.error("MongoDB connection failed", error);
+        throw error;
     }
 };

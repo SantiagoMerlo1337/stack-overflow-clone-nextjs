@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 import {
     downvoteQuestion,
@@ -35,6 +35,7 @@ const Votes = ({
 }: Props) => {
     const pathname = usePathname();
     const router = useRouter();
+    const hasViewed = useRef(false);
 
     const handleSave = async () => {
         if (!userId) {
@@ -116,10 +117,13 @@ const Votes = ({
     };
 
     useEffect(() => {
-        viewQuestion({
-            questionId: JSON.parse(itemId),
-            userId: userId ? JSON.parse(userId) : undefined,
-        });
+        if (!hasViewed.current) {
+            viewQuestion({
+                questionId: JSON.parse(itemId),
+                userId: userId ? JSON.parse(userId) : undefined,
+            });
+            hasViewed.current = true;
+        }
     }, [itemId, userId, pathname, router]);
 
     return (
