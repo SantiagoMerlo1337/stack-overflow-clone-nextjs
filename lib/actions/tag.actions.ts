@@ -5,6 +5,7 @@ import { connectToDatabase } from "../mongoose";
 import {
     GetAllTagsParams,
     GetQuestionsByTagIdParams,
+    GetTagByIdParams,
     GetTopInteractedTagsParams,
 } from "./shared.types";
 import User from "@/database/user.model";
@@ -144,5 +145,20 @@ export async function getTopPopularTags() {
         return popularTags;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export async function getTagById(params: GetTagByIdParams) {
+    try {
+        await connectToDatabase();
+
+        const { tagId } = params;
+
+        const tag = await Tag.findById(tagId);
+
+        return tag;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
 }

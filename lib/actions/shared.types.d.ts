@@ -158,3 +158,7 @@ export interface GetUserStatsParams {
 export interface DeleteUserParams {
     clerkId: string;
 }
+
+export interface GetTagByIdParams {
+    tagId: string;
+}

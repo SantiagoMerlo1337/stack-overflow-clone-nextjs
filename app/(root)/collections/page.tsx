@@ -12,7 +12,7 @@ import Pagination from "@/components/shared/Pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Collection | Dev Overflow",
+    title: "Collections | Dev Overflow",
 };
 
 const Home = async ({ searchParams }: SearchParamsProps) => {

@@ -2,9 +2,33 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { getQuestionsByTagId } from "@/lib/actions/tag.actions";
+import { getQuestionsByTagId, getTagById } from "@/lib/actions/tag.actions";
 import { URLProps } from "@/types";
+import { Metadata } from "next";
 import React from "react";
+
+export async function generateMetadata({
+    params,
+}: URLProps): Promise<Metadata> {
+    const { id: tagId } = params;
+
+    try {
+        const tag = await getTagById({ tagId });
+        if (!tag) {
+            return {
+                title: "Tag not found | Dev Overflow",
+            };
+        }
+        return {
+            title: `${tag.name} | Dev Overflow`,
+        };
+    } catch (error) {
+        console.error("Error fetching tag data:", error);
+        return {
+            title: "Error | Dev Overflow",
+        };
+    }
+}
 
 const Page = async ({ params, searchParams }: URLProps) => {
     const result = await getQuestionsByTagId({

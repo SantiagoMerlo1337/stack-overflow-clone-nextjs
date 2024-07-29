@@ -4,7 +4,7 @@ import QuestionTab from "@/components/shared/QuestionTab";
 import Stats from "@/components/shared/Stats";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getUserInfo } from "@/lib/actions/user.action";
+import { getUserById, getUserInfo } from "@/lib/actions/user.action";
 import { getJoinedDate } from "@/lib/utils";
 import { URLProps } from "@/types";
 import { SignedIn, auth } from "@clerk/nextjs";
@@ -13,9 +13,28 @@ import Link from "next/link";
 import React from "react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: `Profile | Dev Overflow`,
-};
+export async function generateMetadata({
+    params,
+}: URLProps): Promise<Metadata> {
+    const { id: userId } = params;
+
+    try {
+        const user = await getUserById({ userId });
+        if (!user) {
+            return {
+                title: "User not found | Dev Overflow",
+            };
+        }
+        return {
+            title: `${user.name} | Dev Overflow`,
+        };
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        return {
+            title: "Error | Dev Overflow",
+        };
+    }
+}
 
 const Page = async ({ params, searchParams }: URLProps) => {
     const { userId: clerkId } = auth();

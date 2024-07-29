@@ -19,8 +19,7 @@ import { auth } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
     title: "Home | Dev Overflow",
-    description:
-        "Dev Overflow is a community of 1,000,000+ developers. Join us.",
+    description: "Dev Overflow is a community for developers. Join us.",
 };
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
