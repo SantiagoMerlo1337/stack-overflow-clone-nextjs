@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: "/",
             disallow: "/private/",
         },
-        sitemap: `${process.env.NEXT_PUBLIC_SERVER_URL}sitemap.ts`,
+        sitemap: `${process.env.NEXT_PUBLIC_SERVER_URL}sitemap.xml`,
     };
 }
