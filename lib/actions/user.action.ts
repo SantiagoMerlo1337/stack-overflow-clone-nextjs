@@ -22,7 +22,7 @@ import { assignBadges } from "../utils";
 
 export async function getAllUsers(params: GetAllUsersParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 
@@ -71,7 +71,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
 
 export async function getUserById(params: GetUserByIdParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
         const { userId } = params;
         const user = await User.findOne({ clerkId: userId });
         return user;
@@ -83,7 +83,7 @@ export async function getUserById(params: GetUserByIdParams) {
 
 export async function createUser(userData: CreateUserParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const newUser = await User.create(userData);
         return newUser;
@@ -95,7 +95,7 @@ export async function createUser(userData: CreateUserParams) {
 
 export async function updateUser(params: UpdateUserParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const { clerkId, updateData, path } = params;
 
@@ -110,7 +110,7 @@ export async function updateUser(params: UpdateUserParams) {
 
 export async function deleteUser(params: DeleteUserParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const { clerkId } = params;
 
@@ -140,7 +140,7 @@ export async function deleteUser(params: DeleteUserParams) {
 
 export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const { userId, questionId, path } = params;
 
@@ -174,7 +174,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
 
 export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const {
             clerkId,
@@ -247,7 +247,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 export async function getUserInfo(params: GetUserByIdParams) {
     const { userId } = params;
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const user = await User.findOne({ clerkId: userId });
 
@@ -338,7 +338,7 @@ export async function getUserInfo(params: GetUserByIdParams) {
 
 export async function getUserQuestions(params: GetUserStatsParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const { userId, page = 1, pageSize = 10 } = params;
 
@@ -366,7 +366,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 
 export async function getUserAnswers(params: GetUserStatsParams) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const { userId, page = 1, pageSize = 10 } = params;
 
