@@ -10,11 +10,7 @@ import { globalSearch } from "@/lib/actions/general.action";
 const GlobalResult = () => {
     const searchParams = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
-    const [result, setResult] = useState([
-        { type: "question", id: 1, title: "Next.js question" },
-        { type: "tag", id: 1, title: "Nextjs" },
-        { type: "user", id: 1, title: "sm1337" },
-    ]);
+    const [result, setResult] = useState<any>();
 
     const global = searchParams.get("global");
     const type = searchParams.get("type");
@@ -24,9 +20,9 @@ const GlobalResult = () => {
             setResult([]);
             setIsLoading(true);
             try {
-                const res = await globalSearch({ query: global, type });
+                const result = await globalSearch({ query: global, type });
 
-                setResult(JSON.parse(res));
+                setResult(JSON.parse(result));
             } catch (error) {
                 console.error(error);
             } finally {
@@ -74,7 +70,7 @@ const GlobalResult = () => {
                     </div>
                 ) : (
                     <div className="flex flex-col gap-2">
-                        {result.length > 0 ? (
+                        {result && result.length > 0 && !isLoading ? (
                             result.map((item: any, index: number) => (
                                 <Link
                                     href={renderLink(item.type, item.id)}
