@@ -26,7 +26,7 @@ export async function generateMetadata({
             };
         }
         return {
-            title: `${user.name} | Dev Overflow`,
+            title: `${user?.name} | Dev Overflow`,
         };
     } catch (error) {
         console.error("Error fetching user data:", error);
@@ -54,44 +54,44 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
                     <div className="mt-3">
                         <h2 className="h2-bold text-dark100_light900">
-                            {result.user.name}
+                            {result?.user?.name}
                         </h2>
                         <p className="paragraph-regular text-dark200_light800">
-                            @{result.user.username}
+                            @{result?.user?.username}
                         </p>
 
                         <div className="text-dark300_light700 mt-5 flex flex-wrap items-center justify-start gap-5">
-                            {result.user.portfolioWebsite && (
+                            {result?.user?.portfolioWebsite && (
                                 <ProfileLink
                                     imgUrl="/assets/icons/link.svg"
-                                    href={result.user.portfolioWebsite}
+                                    href={result?.user?.portfolioWebsite}
                                     title="Portfolio"
                                 />
                             )}
 
-                            {result.user.location && (
+                            {result.user?.location && (
                                 <ProfileLink
                                     imgUrl="/assets/icons/location.svg"
-                                    title={result.user.location}
+                                    title={result.user?.location}
                                 />
                             )}
 
                             <ProfileLink
                                 imgUrl="/assets/icons/calendar.svg"
-                                title={getJoinedDate(result.user.joinedAt)}
+                                title={getJoinedDate(result?.user?.joinedAt)}
                             />
                         </div>
 
-                        {result.user.bio && (
+                        {result?.user?.bio && (
                             <p className="paragraph-regular text-dark400_light800 mt-8">
-                                {result.user.bio}
+                                {result.user?.bio}
                             </p>
                         )}
                     </div>
                 </div>
                 <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
                     <SignedIn>
-                        {clerkId === result.user.clerkId && (
+                        {clerkId === result?.user?.clerkId && (
                             <Link href="/profile/edit">
                                 <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] min-w-[175px] px-4 py-3">
                                     Edit Profile
@@ -102,9 +102,9 @@ const Page = async ({ params, searchParams }: URLProps) => {
                 </div>
             </div>
             <Stats
-                totalQuestions={result.totalQuestions}
-                totalAnswers={result.totalAnswers}
-                badges={result.badgeCounts}
+                totalQuestions={result?.totalQuestions}
+                totalAnswers={result?.totalAnswers}
+                badges={result?.badgeCounts}
             />
             <div className="mt-10 flex gap-10">
                 <Tabs>
@@ -122,7 +122,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
                             className="mt-5 flex w-full flex-col gap-6"
                         >
                             <QuestionTab
-                                userId={result.user._id}
+                                userId={result?.user?._id}
                                 clerkId={clerkId}
                                 searchParams={searchParams}
                             />
@@ -132,7 +132,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
                             className="flex w-full flex-col gap-6"
                         >
                             <AnswersTab
-                                userId={result.user._id}
+                                userId={result?.user?._id}
                                 clerkId={clerkId}
                                 searchParams={searchParams}
                             />
