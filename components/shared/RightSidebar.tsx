@@ -17,12 +17,12 @@ const RightSidebar = async () => {
                     {hotQuestions?.map((question) => {
                         return (
                             <Link
-                                key={question._id}
-                                href={`question/${question._id}`}
+                                key={question?._id}
+                                href={`question/${question?._id}`}
                                 className="flex cursor-pointer items-center justify-between gap-7"
                             >
                                 <p className="body-medium text-dark500_light700">
-                                    {question.title}
+                                    {question?.title}
                                 </p>
                                 <Image
                                     src={"/assets/icons/chevron-right.svg"}
@@ -41,10 +41,10 @@ const RightSidebar = async () => {
                 <div className="mt-7 flex flex-col gap-4">
                     {popularTags?.map((tag) => (
                         <RenderTag
-                            key={tag._id}
-                            _id={tag._id}
-                            name={tag.name}
-                            totalQuestions={tag.totalQuestions}
+                            key={tag?._id}
+                            _id={tag?._id}
+                            name={tag?.name}
+                            totalQuestions={tag?.totalQuestions}
                             showCount
                         />
                     ))}
