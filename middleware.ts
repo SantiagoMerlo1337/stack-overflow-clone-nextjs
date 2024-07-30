@@ -10,7 +10,6 @@ export default authMiddleware({
         "/tags/:id",
         "/profile/:id",
         "/community",
-        "/jobs",
     ],
     // Routes that can always be accessed, and have
     // no authentication information
