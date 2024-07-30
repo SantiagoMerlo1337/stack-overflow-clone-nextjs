@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 import {
     downvoteQuestion,
@@ -36,20 +36,36 @@ const Votes = ({
     const pathname = usePathname();
     const router = useRouter();
     const hasViewed = useRef(false);
+    const [localUpvotes, setLocalUpvotes] = useState(upvotes);
+    const [localDownvotes, setLocalDownvotes] = useState(downvotes);
+    const [localHasUpvoted, setLocalHasUpvoted] = useState(hasupVoted);
+    const [localHasDownvoted, setLocalHasDownvoted] = useState(hasdownVoted);
+    const [localHasSaved, setLocalHasSaved] = useState(hasSaved);
 
     const handleSave = async () => {
-        if (!userId) {
-            return toast({
-                title: "Please log in",
-                description: "You must be logged in to perform this action",
-            });
+        // OPTIMISTIC UI
+        if (!localHasSaved) {
+            setLocalHasSaved(true);
+        } else {
+            setLocalHasSaved(false);
         }
+        try {
+            if (!userId) {
+                return toast({
+                    title: "Please log in",
+                    description: "You must be logged in to perform this action",
+                });
+            }
 
-        await toggleSaveQuestion({
-            userId: JSON.parse(userId),
-            questionId: JSON.parse(itemId),
-            path: pathname,
-        });
+            await toggleSaveQuestion({
+                userId: JSON.parse(userId),
+                questionId: JSON.parse(itemId),
+                path: pathname,
+            });
+        } catch (error) {
+            // REVIERTE UI EN CASO DE ERROR
+            setLocalHasSaved(!localHasSaved);
+        }
 
         return toast({
             title: `Question ${!hasSaved ? "Saved in" : "Removed from"} your collection`,
@@ -66,52 +82,90 @@ const Votes = ({
         }
 
         if (action === "upvote") {
-            if (type === "Question") {
-                await upvoteQuestion({
-                    questionId: JSON.parse(itemId),
-                    userId: JSON.parse(userId),
-                    hasupVoted,
-                    hasdownVoted,
-                    path: pathname,
-                });
-            } else if (type === "Answer") {
-                await upvoteAnswer({
-                    answerId: JSON.parse(itemId),
-                    userId: JSON.parse(userId),
-                    hasupVoted,
-                    hasdownVoted,
-                    path: pathname,
-                });
+            // OPTIMISTIC UI
+            setLocalUpvotes(localUpvotes + (localHasUpvoted ? -1 : 1));
+            setLocalHasUpvoted(!localHasUpvoted);
+            if (localHasDownvoted) {
+                setLocalDownvotes(localDownvotes - 1);
+                setLocalHasDownvoted(false);
+            }
+
+            try {
+                if (type === "Question") {
+                    await upvoteQuestion({
+                        questionId: JSON.parse(itemId),
+                        userId: JSON.parse(userId),
+                        hasupVoted: localHasUpvoted,
+                        hasdownVoted: localHasDownvoted,
+                        path: pathname,
+                    });
+                } else if (type === "Answer") {
+                    await upvoteAnswer({
+                        answerId: JSON.parse(itemId),
+                        userId: JSON.parse(userId),
+                        hasupVoted: localHasUpvoted,
+                        hasdownVoted: localHasDownvoted,
+                        path: pathname,
+                    });
+                }
+            } catch (error) {
+                // REVIERTE UI EN CASO DE ERROR
+                setLocalUpvotes(localUpvotes - (localHasUpvoted ? -1 : 1));
+                setLocalHasUpvoted(localHasUpvoted);
+                if (localHasDownvoted) {
+                    setLocalDownvotes(localDownvotes + 1);
+                    setLocalHasDownvoted(true);
+                }
             }
 
             return toast({
-                title: `Upvote ${!hasupVoted ? "Successful" : "Removed"}`,
-                variant: !hasupVoted ? "default" : "destructive",
+                title: `Upvote ${!localHasUpvoted ? "Successful" : "Removed"}`,
+                variant: !localHasUpvoted ? "default" : "destructive",
             });
         }
 
         if (action === "downvote") {
-            if (type === "Question") {
-                await downvoteQuestion({
-                    questionId: JSON.parse(itemId),
-                    userId: JSON.parse(userId),
-                    hasupVoted,
-                    hasdownVoted,
-                    path: pathname,
-                });
-            } else if (type === "Answer") {
-                await downvoteAnswer({
-                    answerId: JSON.parse(itemId),
-                    userId: JSON.parse(userId),
-                    hasupVoted,
-                    hasdownVoted,
-                    path: pathname,
-                });
+            // OPTIMISTIC UI
+            setLocalDownvotes(localDownvotes + (localHasDownvoted ? -1 : 1));
+            setLocalHasDownvoted(!localHasDownvoted);
+            if (localHasUpvoted) {
+                setLocalUpvotes(localUpvotes - 1);
+                setLocalHasUpvoted(false);
+            }
+
+            try {
+                if (type === "Question") {
+                    await downvoteQuestion({
+                        questionId: JSON.parse(itemId),
+                        userId: JSON.parse(userId),
+                        hasupVoted: localHasUpvoted,
+                        hasdownVoted: localHasDownvoted,
+                        path: pathname,
+                    });
+                } else if (type === "Answer") {
+                    await downvoteAnswer({
+                        answerId: JSON.parse(itemId),
+                        userId: JSON.parse(userId),
+                        hasupVoted: localHasUpvoted,
+                        hasdownVoted: localHasDownvoted,
+                        path: pathname,
+                    });
+                }
+            } catch (error) {
+                // REVIERTE UI EN CASO DE ERROR
+                setLocalDownvotes(
+                    localDownvotes - (localHasDownvoted ? -1 : 1)
+                );
+                setLocalHasDownvoted(localHasDownvoted);
+                if (localHasUpvoted) {
+                    setLocalUpvotes(localUpvotes + 1);
+                    setLocalHasUpvoted(true);
+                }
             }
 
             return toast({
-                title: `Downvote  ${!hasupVoted ? "Successful" : "Removed"}`,
-                variant: !hasupVoted ? "default" : "destructive",
+                title: `Downvote ${!localHasDownvoted ? "Successful" : "Removed"}`,
+                variant: !localHasDownvoted ? "default" : "destructive",
             });
         }
     };
@@ -132,7 +186,7 @@ const Votes = ({
                 <div className="flex-center gap-1.5">
                     <Image
                         src={
-                            hasupVoted
+                            localHasUpvoted
                                 ? "/assets/icons/upvoted.svg"
                                 : "/assets/icons/upvote.svg"
                         }
@@ -144,7 +198,7 @@ const Votes = ({
                     />
                     <div className="flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1">
                         <p className="subtle-medium text-dark400_light900">
-                            {formatAndDivideNumber(upvotes)}
+                            {formatAndDivideNumber(localUpvotes)}
                         </p>
                     </div>
                 </div>
@@ -152,7 +206,7 @@ const Votes = ({
                 <div className="flex-center gap-1.5">
                     <Image
                         src={
-                            hasdownVoted
+                            localHasDownvoted
                                 ? "/assets/icons/downvoted.svg"
                                 : "/assets/icons/downvote.svg"
                         }
@@ -164,7 +218,7 @@ const Votes = ({
                     />
                     <div className="flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1">
                         <p className="subtle-medium text-dark400_light900">
-                            {formatAndDivideNumber(downvotes)}
+                            {formatAndDivideNumber(localDownvotes)}
                         </p>
                     </div>
                 </div>
@@ -172,7 +226,7 @@ const Votes = ({
             {type === "Question" && (
                 <Image
                     src={
-                        hasSaved
+                        localHasSaved
                             ? "/assets/icons/star-filled.svg"
                             : "/assets/icons/star-red.svg"
                     }
