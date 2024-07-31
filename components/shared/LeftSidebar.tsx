@@ -27,52 +27,26 @@ const LeftSidebar = () => {
                         }
                     }
 
-                    if (item.label === "Find Jobs") {
-                        return (
-                            <Link
-                                key={item.route}
-                                href="#"
-                                className={`${isActive ? "primary-gradient rounded-lg text-light-900 opacity-50" : "text-dark300_light900 opacity-50"} flex cursor-default items-center justify-start gap-4 bg-transparent p-4`}
+                    return (
+                        <Link
+                            key={item.route}
+                            href={item.route}
+                            className={`${isActive ? "primary-gradient rounded-lg text-light-900" : "text-dark300_light900"} flex items-center justify-start gap-4 bg-transparent p-4`}
+                        >
+                            <Image
+                                src={item.imgURL}
+                                alt={item.label}
+                                width={20}
+                                height={20}
+                                className={`${isActive ? "" : "invert-colors"}`}
+                            />
+                            <p
+                                className={`${isActive ? "base-bold" : "base-medium"} max-lg:hidden`}
                             >
-                                <Image
-                                    src={item.imgURL}
-                                    alt={item.label}
-                                    width={20}
-                                    height={20}
-                                    className={`${isActive ? "" : "invert-colors opacity-50"}`}
-                                />
-                                <p
-                                    className={`${isActive ? "base-bold" : "base-medium"} max-lg:hidden`}
-                                >
-                                    {item.label}{" "}
-                                    <span className="subtle-medium">
-                                        Cooming soon
-                                    </span>
-                                </p>
-                            </Link>
-                        );
-                    } else {
-                        return (
-                            <Link
-                                key={item.route}
-                                href={item.route}
-                                className={`${isActive ? "primary-gradient rounded-lg text-light-900" : "text-dark300_light900"} flex items-center justify-start gap-4 bg-transparent p-4`}
-                            >
-                                <Image
-                                    src={item.imgURL}
-                                    alt={item.label}
-                                    width={20}
-                                    height={20}
-                                    className={`${isActive ? "" : "invert-colors"}`}
-                                />
-                                <p
-                                    className={`${isActive ? "base-bold" : "base-medium"} max-lg:hidden`}
-                                >
-                                    {item.label}
-                                </p>
-                            </Link>
-                        );
-                    }
+                                {item.label}
+                            </p>
+                        </Link>
+                    );
                 })}
             </div>
             <SignedOut>
